@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <openerp>
 	<data>
+
+
+		<!-- Act window -->
 		<act_window id="action_todo_stage" 
 			name="To-Do Task Stages"
 			res_model="todo.task.stage"
@@ -22,6 +25,24 @@
 			res_model="todo.task.stage"
 			src_model="todo.task"
 			multi="False"
+			/>
+
+		<!-- Menu -->
+		<menuitem id="menu_todo_task_main"
+			name="To-Do Tasks"
+			parent="mail.mail_my_stuff"
+			/>
+		<menuitem  id="todo_app.menu_todo_task"
+			name="To-Do Tasks"
+			parent="menu_todo_task_main"
+			sequence="10"
+			action="todo_app.action_todo_task"
+			/>
+		<menuitem id="menu_todo_task_stage"
+			name="To-Do Stages"
+			parent="menu_todo_task_main"
+			sequence="20"
+			action="action_todo_stage"
 			/>
 	</data>
 </openerp>

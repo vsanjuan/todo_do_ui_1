@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from openerp import models, fields, api
+from openerp import openerp.exceptions import ValidationError
 
 class Tag(models.Model):
 	_name = 'todo.task.tag'
@@ -41,6 +42,38 @@ class TodoTask(models.Model):
 
 	refers_to = fields.Reference([('res.user','User'),('res.partner','Partner')],'Refers to')
 
-	
+	stage_fold = fields.Boolean(
+		'Stage Folded?',
+		compute ='_compute_stage_fold',
+		search = '_search_stage_fold',
+		inverse = '_write_stage_fold')
+
+	stage_state = fields.Selection(
+		related = 'stage_id.state',
+		string = 'Stage State')
+
+	_sql_constrainsts = [
+		('todo_task_name_uniq',
+		 'UNIQUE (name, user_id, active)',
+		 'Task title must be unique!')
+	]
+
+	@api.one 
+	@api.constraints('name')
+	def _check_name_size(self):
+		if len(self.name) < 5:
+			raise ValidationError('Must have 5 chars!')
+
+	@api.one 
+	@api.depends('stage_id.fold')
+	def _compute_stage_fold(self):
+		self.stage_fold = self.stage_id.fold
+
+	def _search_stage_fold(self, operator, value):
+		return [('stage_id.fold',operator,value)]
+
+	def _write_stage_fold(self):
+		self.stage_id.fold = self.stage_fold
+
 
 

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from openerp import models, fields, api
-from openerp import openerp.exceptions import ValidationError
+from openerp.exceptions import ValidationError
 
 class Tag(models.Model):
 	_name = 'todo.task.tag'
-	name = fields.Char('Name', 40 , translate=True)
+	name = fields.Char('Name',size=40,translate=True)
 	# Relations
 	task_ids = fields.Many2many('todo.task','Task')
 	# Hierarchical relations
@@ -19,10 +19,10 @@ class Stage(models.Model):
 	_name = 'todo.task.stage'
 	_order = 'sequence,name'
 	# String fields:
-	name = fields.Char('Name', 40, translate=True)
+	name = fields.Char('Name',size=40,translate=True)
 	desc = fields.Text('Description')
 	state = fields.Selection([('draft','New'),('open','Started'),('done','Closed')],'State')
-	docs = fields.Htlm('Documentation')
+	docs = fields.Html('Documentation')
 	# Numeric fields:
 	sequence = fields.Integer('Sequence')
 	perc_complete = fields.Float('% Complete', (3,2))
@@ -31,7 +31,7 @@ class Stage(models.Model):
 	date_changed = fields.Datetime('Last Changed')
 	# Other fields
 	fold = fields.Boolean('Folded?')
-	image = field.Binary('Image')
+	image = fields.Binary('Image')
 	# Relations
 	tasks = fields.One2many('todo.task', 'stage_id','Task in this Stage')
 
@@ -52,14 +52,14 @@ class TodoTask(models.Model):
 		related = 'stage_id.state',
 		string = 'Stage State')
 
-	_sql_constrainsts = [
+	_sql_constraints = [
 		('todo_task_name_uniq',
 		 'UNIQUE (name, user_id, active)',
 		 'Task title must be unique!')
 	]
 
 	@api.one 
-	@api.constraints('name')
+	@api.constrains('name')
 	def _check_name_size(self):
 		if len(self.name) < 5:
 			raise ValidationError('Must have 5 chars!')

@@ -75,5 +75,14 @@ class TodoTask(models.Model):
 	def _write_stage_fold(self):
 		self.stage_id.fold = self.stage_fold
 
+	@api.one
+	def compute_user_todo_count(self):
+		self.compute_user_todo_count = self.search_count(
+			[('user_id','=',self.user_id.id)])
+		
+	user_todo_count = fields.Integer(
+			'User To-Do Count',
+			compute='compute_user_todo_count')
+
 
 

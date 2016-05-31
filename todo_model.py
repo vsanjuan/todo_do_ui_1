@@ -38,7 +38,7 @@ class Stage(models.Model):
 class TodoTask(models.Model):
 	_inherit = 'todo.task'
 	stage_id = fields.Many2one('todo.task.stage', 'Stage')
-	tags_ids = fields.Many2many('todo.task.tag', string="Tags")
+	tag_ids = fields.Many2many('todo.task.tag', string="Tags")
 
 	refers_to = fields.Reference([('res.user','User'),('res.partner','Partner')],'Refers to')
 
@@ -84,5 +84,6 @@ class TodoTask(models.Model):
 			'User To-Do Count',
 			compute='compute_user_todo_count')
 
+	effort_estimate = fields.Integer('Effort Estimate')
 
 

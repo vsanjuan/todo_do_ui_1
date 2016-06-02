@@ -118,6 +118,21 @@
 			</field>
 		</record>
 
+		<!-- To-Do task list view -->
+		<record id="todo_app.view_tree_todo_task"
+			model="ir.ui.view">
+			<field name="name">To-do Task Tree</field>
+			<field name="model">todo.task</field>
+			<field name="arch" type="xml">
+				<tree editable="bottom"
+					colors="gray:is_done==True"
+					fonts="italic: state!='open'" delete='false'>
+					<field name="name"/>
+					<field name="user_id"/>
+				</tree>
+			</field>
+		</record>
+
 
 	</data>
 </openerp>

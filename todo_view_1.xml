@@ -13,7 +13,7 @@
         res_model="todo.task"
         view_mode="tree,form,calendar,gantt,graph"
         target="current"
-        context="{'default_user_id': uid}"
+        context="{'default_user_id':uid}"
         domain="[]"
         limit="80"
         />
